@@ -443,7 +443,7 @@
                         "ApiId"
                       ]
                     },
-                    "code": "\n          export function request(ctx) {\n          return { operation: 'Scan' };\n          }\n\n          export function response(ctx) {\n          return ctx.result.items;\n          }\n  ",
+                    "code": "\n          export function request(ctx) {\n            return { operation: 'Scan' };\n          }\n\n          export function response(ctx) {\n            return ctx.result.items;\n          }\n  ",
                     "dataSourceName": "tableforposts",
                     "functionVersion": "2018-05-29",
                     "name": "get_posts_func_1",
@@ -480,7 +480,7 @@
                         "ApiId"
                       ]
                     },
-                    "code": "\n          export function request(ctx) {\n            return {\n            operation: 'PutItem',\n            key: util.dynamodb.toMapValues({id: util.autoId()}),\n            attributeValues: util.dynamodb.toMapValues(ctx.args.input),\n            };\n          }\n\n          export function response(ctx) {\n            return ctx.result;\n          }\n      ",
+                    "code": "\n          export function request(ctx) {\n            return {\n              operation: 'PutItem',\n              key: util.dynamodb.toMapValues({id: util.autoId()}),\n              attributeValues: util.dynamodb.toMapValues(ctx.args.input),\n            };\n          }\n\n          export function response(ctx) {\n            return ctx.result;\n          }\n      ",
                     "dataSourceName": "tableforposts2",
                     "functionVersion": "2018-05-29",
                     "name": "add_posts_func_1",
