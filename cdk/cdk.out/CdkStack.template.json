@@ -1,0 +1,665 @@
+{
+ "Resources": {
+  "postapis4FB6E287": {
+   "Type": "AWS::AppSync::GraphQLApi",
+   "Properties": {
+    "AuthenticationType": "API_KEY",
+    "Name": "api-to-process-posts"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/Resource"
+   }
+  },
+  "postapisSchema61653E03": {
+   "Type": "AWS::AppSync::GraphQLSchema",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    },
+    "Definition": "input CreatePostInput {\n  title: String\n  content: String\n}\n\ntype Post {\n  id: ID!\n  title: String\n  content: String\n}\n\ntype Mutation {\n  createPost(input: CreatePostInput!): Post\n}\n\ntype Query {\n  getPost: [Post]\n}\n"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/Schema"
+   }
+  },
+  "postapisDefaultApiKey12F65C89": {
+   "Type": "AWS::AppSync::ApiKey",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    }
+   },
+   "DependsOn": [
+    "postapisSchema61653E03"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/DefaultApiKey"
+   }
+  },
+  "postapistableforpostsServiceRole0834919D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/table-for-posts/ServiceRole/Resource"
+   }
+  },
+  "postapistableforpostsServiceRoleDefaultPolicyD8F97A37": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "poststable6CB5A2E6",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "postapistableforpostsServiceRoleDefaultPolicyD8F97A37",
+    "Roles": [
+     {
+      "Ref": "postapistableforpostsServiceRole0834919D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/table-for-posts/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "postapistableforposts97541568": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": {
+      "Ref": "AWS::Region"
+     },
+     "TableName": {
+      "Ref": "poststable6CB5A2E6"
+     }
+    },
+    "Name": "tableforposts",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "postapistableforpostsServiceRole0834919D",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/table-for-posts/Resource"
+   }
+  },
+  "postapistableforposts2ServiceRole57AA050A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/table-for-posts-2/ServiceRole/Resource"
+   }
+  },
+  "postapistableforposts2ServiceRoleDefaultPolicy0CB20813": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "poststable6CB5A2E6",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "postapistableforposts2ServiceRoleDefaultPolicy0CB20813",
+    "Roles": [
+     {
+      "Ref": "postapistableforposts2ServiceRole57AA050A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/table-for-posts-2/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "postapistableforposts216F141FC": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": {
+      "Ref": "AWS::Region"
+     },
+     "TableName": {
+      "Ref": "poststable6CB5A2E6"
+     }
+    },
+    "Name": "tableforposts2",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "postapistableforposts2ServiceRole57AA050A",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/post-apis/table-for-posts-2/Resource"
+   }
+  },
+  "poststable6CB5A2E6": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/posts-table/Resource"
+   }
+  },
+  "funcgetpost4E013238": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    },
+    "Code": "\n          export function request(ctx) {\n          return { operation: 'Scan' };\n          }\n\n          export function response(ctx) {\n          return ctx.result.items;\n          }\n  ",
+    "DataSourceName": "tableforposts",
+    "FunctionVersion": "2018-05-29",
+    "Name": "get_posts_func_1",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    }
+   },
+   "DependsOn": [
+    "postapisSchema61653E03",
+    "postapistableforposts97541568"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/func-get-post/Resource"
+   }
+  },
+  "funcaddpost73CF9397": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    },
+    "Code": "\n          export function request(ctx) {\n            return {\n            operation: 'PutItem',\n            key: util.dynamodb.toMapValues({id: util.autoId()}),\n            attributeValues: util.dynamodb.toMapValues(ctx.args.input),\n            };\n          }\n\n          export function response(ctx) {\n            return ctx.result;\n          }\n      ",
+    "DataSourceName": "tableforposts2",
+    "FunctionVersion": "2018-05-29",
+    "Name": "add_posts_func_1",
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    }
+   },
+   "DependsOn": [
+    "postapisSchema61653E03",
+    "postapistableforposts216F141FC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/func-add-post/Resource"
+   }
+  },
+  "pipelineresolvergetposts7EA4FAC3": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    },
+    "Code": "\n          export function request(ctx) {\n          return {};\n          }\n\n          export function response(ctx) {\n          return ctx.prev.result;\n          }\n  ",
+    "FieldName": "getPost",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "funcgetpost4E013238",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Query"
+   },
+   "DependsOn": [
+    "postapisSchema61653E03"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/pipeline-resolver-get-posts/Resource"
+   }
+  },
+  "pipelineresolvercreatepostsF94542A5": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "postapis4FB6E287",
+      "ApiId"
+     ]
+    },
+    "Code": "\n          export function request(ctx) {\n          return {};\n          }\n\n          export function response(ctx) {\n          return ctx.prev.result;\n          }\n  ",
+    "FieldName": "createPost",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "funcaddpost73CF9397",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "Runtime": {
+     "Name": "APPSYNC_JS",
+     "RuntimeVersion": "1.0.0"
+    },
+    "TypeName": "Mutation"
+   },
+   "DependsOn": [
+    "postapisSchema61653E03"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/pipeline-resolver-create-posts/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VOy0rEMBT9ltmncTqCuC0tulBQW/dym2ScO5MmMY8ZSsi/S1ICujpPDudA2/sHut/BzTWMXxqJM42TB3YhcHNfEYxxq2I0Plswpx/ZGST9URX18fpfTewkFshGZ/BFrGRYFSx6mAfwMOlgmcjhH9Vt609BMY9a5bTyXqsjfgcLJRiF0/IqbG5UngjCQuOoZZkt+K4lsjXLjSXCywc+0/gJ89YsJKUyWk+9BW+Cr/PV7bXimA8kojQX9Ozuru0jPexpuzs7xMYG5XERdNzwF1QcyP5OAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "GraphQLAPIURL": {
+   "Value": {
+    "Fn::GetAtt": [
+     "postapis4FB6E287",
+     "GraphQLUrl"
+    ]
+   }
+  },
+  "GraphQLAPIKey": {
+   "Value": {
+    "Fn::GetAtt": [
+     "postapisDefaultApiKey12F65C89",
+     "ApiKey"
+    ]
+   }
+  },
+  "StackRegion": {
+   "Value": {
+    "Ref": "AWS::Region"
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

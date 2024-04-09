@@ -1,0 +1,173 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "CdkStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "CdkStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "CdkStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "CdkStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/aba60bb009b54d0fe9fe18caac9ce1d27ea8fcca6e5a7903ced5aba02f953555.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "CdkStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "CdkStack.assets"
+      ],
+      "metadata": {
+        "/CdkStack/post-apis/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapis4FB6E287"
+          }
+        ],
+        "/CdkStack/post-apis/Schema": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapisSchema61653E03"
+          }
+        ],
+        "/CdkStack/post-apis/DefaultApiKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapisDefaultApiKey12F65C89"
+          }
+        ],
+        "/CdkStack/post-apis/table-for-posts/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapistableforpostsServiceRole0834919D"
+          }
+        ],
+        "/CdkStack/post-apis/table-for-posts/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapistableforpostsServiceRoleDefaultPolicyD8F97A37"
+          }
+        ],
+        "/CdkStack/post-apis/table-for-posts/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapistableforposts97541568"
+          }
+        ],
+        "/CdkStack/post-apis/table-for-posts-2/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapistableforposts2ServiceRole57AA050A"
+          }
+        ],
+        "/CdkStack/post-apis/table-for-posts-2/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapistableforposts2ServiceRoleDefaultPolicy0CB20813"
+          }
+        ],
+        "/CdkStack/post-apis/table-for-posts-2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "postapistableforposts216F141FC"
+          }
+        ],
+        "/CdkStack/posts-table/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "poststable6CB5A2E6"
+          }
+        ],
+        "/CdkStack/func-get-post/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "funcgetpost4E013238"
+          }
+        ],
+        "/CdkStack/func-add-post/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "funcaddpost73CF9397"
+          }
+        ],
+        "/CdkStack/pipeline-resolver-get-posts/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pipelineresolvergetposts7EA4FAC3"
+          }
+        ],
+        "/CdkStack/pipeline-resolver-create-posts/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pipelineresolvercreatepostsF94542A5"
+          }
+        ],
+        "/CdkStack/GraphQLAPIURL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GraphQLAPIURL"
+          }
+        ],
+        "/CdkStack/GraphQLAPIKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GraphQLAPIKey"
+          }
+        ],
+        "/CdkStack/Stack Region": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StackRegion"
+          }
+        ],
+        "/CdkStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/CdkStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/CdkStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/CdkStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "CdkStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
